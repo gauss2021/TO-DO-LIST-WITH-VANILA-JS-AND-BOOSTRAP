@@ -63,14 +63,15 @@ export const createTask= function(task){
 
 }
 
+// let tableau=[];
 
-export const addTask=function (index,value){
+export const addTask=function (index,value,taches){
     const task={
         id:index,
         title:value,
         completed:false
     }
-
+    taches.push(task);
     const el=createTask(task)
 
     const ul=document.querySelector('ul');
@@ -83,14 +84,39 @@ export const addTask=function (index,value){
     const checkbox=document.getElementById(`todo-${task.id}`);
         checkbox.addEventListener('change',checkBox);
 
+    localStorage.setItem("task",JSON.stringify(taches));
 }
 
-export const removeTask=function(e){
+export const removeTask=function(e,taches){
+    const split=e.target.id.split("-");
+
+    const index=split[1];
+    console.log(taches);
+
+    taches.forEach(element => {
+        if(!element !=null){
+            if(element.id==index){
+
+                const indexof=  taches.indexOf(element);
+      
+                delete taches[indexof];
+      
+              }
+        }
+            
+    });
+    console.log(taches);
+
+    const tachesFinal=taches;
+
+    localStorage.setItem('task',JSON.stringify(tachesFinal));
+
     
-       console.log('delete');
+    console.log('delete');
        const firstParent=e.target.parentElement;
        const secondParent=firstParent.parentElement;
        secondParent.remove();
+    
 }
 
 export const todo=function (){
